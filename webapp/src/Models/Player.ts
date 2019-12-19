@@ -1,5 +1,5 @@
 interface IPlayer {
-  id: string;
+  id: string | null;
   data: {
     name: string;
     email: string;

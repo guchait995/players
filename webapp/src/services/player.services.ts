@@ -16,6 +16,7 @@ const getAllPlayers = async options => {
   return playerList;
 };
 const addPlayer = async (player: IPlayer) => {
+  console.log(player.data);
   await Axios.post(
     "https://us-central1-testapp-5b163.cloudfunctions.net/addPlayer",
     { player: player.data }

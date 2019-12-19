@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IPlayer from "../Models/Player";
 import { updatePlayer, deletePlayer } from "../services/player.services";
 
@@ -7,6 +7,11 @@ export default function Player(props) {
   const { data } = player;
   const [playerDetails, setPlayerDetails] = useState(data);
   const [editable, setEditable] = useState(false);
+  useEffect(() => {
+    if (!data.name.length && !data.email.length) {
+      setEditable(true);
+    }
+  }, []);
   const increaseScore = () => {
     let score: number = parseInt(data.score.toString()) + 1;
     player.data.score = score;
@@ -27,8 +32,8 @@ export default function Player(props) {
   };
   const deletePlayerDetails = () => {
     deletePlayer(player);
+    props.setPlayersList(player);
   };
-  const addPlayer = () => {};
   return (
     <div className="columns">
       {editable ? (
@@ -61,12 +66,12 @@ export default function Player(props) {
       )}
       <div className="column is-2">{playerDetails.score}</div>
       <div className="column is-1">
-        <div className="button is-primary" onClick={increaseScore}>
+        <div className="button is-primary is-size-6" onClick={increaseScore}>
           +
         </div>
       </div>
       <div className="column is-1">
-        <div className="button is-primary" onClick={decreaseScore}>
+        <div className="button is-primary  is-size-6" onClick={decreaseScore}>
           -
         </div>
       </div>

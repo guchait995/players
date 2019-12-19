@@ -15,4 +15,16 @@ const getAllPlayers = async options => {
   const playerList: IPlayer[] = data.data;
   return playerList;
 };
-export { updatePlayer, getAllPlayers };
+const addPlayer = async (player: IPlayer) => {
+  await Axios.post(
+    "https://us-central1-testapp-5b163.cloudfunctions.net/addPlayer",
+    { player: player.data }
+  );
+};
+const deletePlayer = async (player: IPlayer) => {
+  await Axios.post(
+    "https://us-central1-testapp-5b163.cloudfunctions.net/deletePlayer",
+    { id: player.id }
+  );
+};
+export { updatePlayer, getAllPlayers, addPlayer, deletePlayer };

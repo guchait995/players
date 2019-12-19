@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -14,8 +18,12 @@
     "noImplicitAny": false,
     "noEmit": true,
     "jsx": "preserve",
-    "isolatedModules": false
+    "isolatedModules": true
   },
-  "include": ["src"],
-  "exclude": ["src/nodeFiles/*.ts"]
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "src/nodeFiles/*.ts"
+  ]
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import IPlayer from "../Models/Player";
-import { updatePlayer } from "../services/player.services";
+import { updatePlayer, deletePlayer } from "../services/player.services";
 
 export default function Player(props) {
   const player: IPlayer = props.player;
@@ -25,6 +25,10 @@ export default function Player(props) {
       updatePlayer(player);
     }
   };
+  const deletePlayerDetails = () => {
+    deletePlayer(player);
+  };
+  const addPlayer = () => {};
   return (
     <div className="columns">
       {editable ? (
@@ -53,7 +57,7 @@ export default function Player(props) {
           }}
         />
       ) : (
-        <div className="column is-4">{playerDetails.email}</div>
+        <div className="column is-3">{playerDetails.email}</div>
       )}
       <div className="column is-2">{playerDetails.score}</div>
       <div className="column is-1">
@@ -72,6 +76,11 @@ export default function Player(props) {
           onClick={editable ? savePlayer : () => setEditable(true)}
         >
           {editable ? "Save" : "Edit"}
+        </div>
+      </div>
+      <div className="column is-1 ">
+        <div className="button is-danger" onClick={deletePlayerDetails}>
+          Delete
         </div>
       </div>
     </div>

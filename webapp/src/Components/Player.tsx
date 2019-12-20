@@ -16,17 +16,21 @@ export default function Player(props) {
     let score: number = parseInt(data.score.toString()) + 1;
     player.data.score = score;
     setPlayerDetails({ ...player.data });
-    updatePlayer(player);
+    // updatePlayer(player);
+    setEditable(true);
+
   };
   const decreaseScore = () => {
     let score: number = parseInt(data.score.toString()) - 1;
     player.data.score = score;
     setPlayerDetails({ ...player.data });
-    updatePlayer(player);
+    // updatePlayer(player);
+    setEditable(true);
   };
   const savePlayer = () => {
     if (editable) {
       setEditable(false);
+      console.log(player);
       updatePlayer(player);
     }
   };

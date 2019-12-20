@@ -1,6 +1,8 @@
 
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
+const cors =require ('cors');
+const corsHandler = cors({origin: true});
 
 admin.initializeApp(functions.config().firebase);
 
@@ -8,6 +10,7 @@ let db = admin.firestore();
 
 export const getPlayers = functions.https.onRequest(async (request:any, response:any) => {
    try{
+      corsHandler(request, response, () => {});
       const {order_by}=request.body;
       const {limit}=request.body;
       const {name}=order_by;
@@ -36,6 +39,7 @@ export const getPlayers = functions.https.onRequest(async (request:any, response
 });
 export const addPlayer = functions.https.onRequest(async (request:any, response:any) => {
    try{
+      corsHandler(request, response, () => {});
       console.log(request.body)
       const {player}=request.body;
       console.log(player);
@@ -48,9 +52,13 @@ export const addPlayer = functions.https.onRequest(async (request:any, response:
 });
 export const updatePlayer = functions.https.onRequest(async (request:any, response:any) => {
   try{
+   corsHandler(request, response, () => {});
    const id:any=request.body.id;
-   const player:any=request.body.player;  
+   const player:any=request.body.player;
+   if(id)  
    await db.collection('players').doc(id).update(player);
+   else
+   await db.collection('players').add(player);
    response.send({'message':'Updated Successfully'});
   }catch(err){
    console.log(err);
@@ -59,6 +67,7 @@ export const updatePlayer = functions.https.onRequest(async (request:any, respon
 });
 export const deletePlayer = functions.https.onRequest(async (request:any, response:any) => {
    try{
+      corsHandler(request, response, () => {});
       const id:any=request.body.id;
       await db.collection('players').doc(id).delete();
       response.send({'message':'Deleted Successfully'});

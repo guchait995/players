@@ -3,6 +3,9 @@ const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const cors =require ('cors');
 const corsHandler = cors({origin: true});
+const PLAYER_ADDED=0;
+const PLAYER_UPDATED=1;
+const PLAYER_DELETED=2;
 
 admin.initializeApp(functions.config().firebase);
 
@@ -37,29 +40,20 @@ export const getPlayers = functions.https.onRequest(async (request:any, response
       response.send(err);
    }
 });
-export const addPlayer = functions.https.onRequest(async (request:any, response:any) => {
-   try{
-      corsHandler(request, response, () => {});
-      console.log(request.body)
-      const {player}=request.body;
-      console.log(player);
-      await db.collection('players').add(player);
-      response.send({'message':'Added Successfully'});
-   }catch(err){
-      response.send(err);
-   }
-   
-});
-export const updatePlayer = functions.https.onRequest(async (request:any, response:any) => {
+
+export const updateOrCreatePlayer = functions.https.onRequest(async (request:any, response:any) => {
   try{
    corsHandler(request, response, () => {});
    const id:any=request.body.id;
    const player:any=request.body.player;
-   if(id)  
+   if(id)  {
    await db.collection('players').doc(id).update(player);
-   else
+   response.send({'code':PLAYER_UPDATED,'message':'Updated Successfully'});
+   }
+   else{
    await db.collection('players').add(player);
-   response.send({'message':'Updated Successfully'});
+   response.send({'code':PLAYER_ADDED,'message':'Updated Successfully'});
+   }
   }catch(err){
    console.log(err);
   }
@@ -70,7 +64,7 @@ export const deletePlayer = functions.https.onRequest(async (request:any, respon
       corsHandler(request, response, () => {});
       const id:any=request.body.id;
       await db.collection('players').doc(id).delete();
-      response.send({'message':'Deleted Successfully'});
+      response.send({'code':PLAYER_DELETED,'message':'Deleted Successfully'});
    }catch(err){
       console.log(err);
    }

@@ -4,7 +4,7 @@ import { updatePlayer, deletePlayer } from "../services/player.services";
 
 export default function Player(props) {
   const player: IPlayer = props.player;
-  const { data } = player;
+  const { data,id } = player;
   const [playerDetails, setPlayerDetails] = useState(data);
   const [editable, setEditable] = useState(false);
   const [scoreUpdated, setScoreUpdated] = useState(false);
@@ -35,11 +35,14 @@ export default function Player(props) {
       console.log(res);
       setEditable(false);
       setScoreUpdated(false);
+      props.fetchAll();
     }
   };
-  const deletePlayerDetails = () => {
-    deletePlayer(player);
-    props.setPlayersList(player);
+  const deletePlayerDetails = async() => {
+    let res:any=await deletePlayer(id);
+        props.fetchAll();
+    
+    // props.filterPlayerList(id);
   };
   return (
     <div className="columns">

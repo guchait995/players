@@ -46,13 +46,14 @@ export const updateOrCreatePlayer = functions.https.onRequest(async (request:any
    corsHandler(request, response, () => {});
    const id:any=request.body.id;
    const player:any=request.body.player;
+   console.log('id: ',id);
    if(id)  {
    await db.collection('players').doc(id).update(player);
    response.send({'code':PLAYER_UPDATED,'message':'Updated Successfully'});
    }
    else{
    await db.collection('players').add(player);
-   response.send({'code':PLAYER_ADDED,'message':'Updated Successfully'});
+   response.send({'code':PLAYER_ADDED,'message':'Added Successfully'});
    }
   }catch(err){
    console.log(err);

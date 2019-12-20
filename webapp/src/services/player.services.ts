@@ -2,7 +2,7 @@ import IPlayer from "../Models/Player";
 import Axios from "axios";
 
 const updatePlayer = async (player: IPlayer) => {
-  await Axios.post(
+  return await Axios.post(
     "https://us-central1-testapp-5b163.cloudfunctions.net/updateOrCreatePlayer",
     { id: player.id, player: player.data }
   );
@@ -15,10 +15,10 @@ const getAllPlayers = async options => {
   const playerList: IPlayer[] = data.data;
   return playerList;
 };
-const deletePlayer = async (player: IPlayer) => {
-  await Axios.post(
+const deletePlayer = async (id) => {
+  return await Axios.post(
     "https://us-central1-testapp-5b163.cloudfunctions.net/deletePlayer",
-    { id: player.id }
+    { id: id }
   );
 };
 export { updatePlayer, getAllPlayers, deletePlayer };

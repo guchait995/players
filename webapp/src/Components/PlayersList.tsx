@@ -17,9 +17,9 @@ export default function PlayersList() {
   async function fetchAll() {
     setLoading(true);
     const playerList = await playerServices.getAllPlayers({
-      order_by: { name: "score", order: "desc" },
-      limit: 3
-    });
+      order_by: { name: "score", order: "desc" }
+    }
+    );
     setPlayers(playerList);
     setLoading(false);
   }
@@ -51,8 +51,12 @@ export default function PlayersList() {
             <Player
               player={player}
               key={index}
-              setPlayersList={player =>
-                setPlayers([...[...players].filter(p => p.id !== player.id)])
+              fetchAll={fetchAll}
+              filterPlayerList={id =>{
+                console.log(id);
+                setPlayers([...players].filter(p => p.id !== id))
+              }
+                
               }
             />
           );

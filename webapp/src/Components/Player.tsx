@@ -7,7 +7,7 @@ export default function Player(props) {
   const { data } = player;
   const [playerDetails, setPlayerDetails] = useState(data);
   const [editable, setEditable] = useState(false);
-  const [scoreUpdated, setScoreUpdated]=useState(false);
+  const [scoreUpdated, setScoreUpdated] = useState(false);
   useEffect(() => {
     if (!data.name.length && !data.email.length) {
       setEditable(true);
@@ -20,7 +20,6 @@ export default function Player(props) {
     // updatePlayer(player);
     // setEditable(true);
     setScoreUpdated(true);
-
   };
   const decreaseScore = () => {
     let score: number = parseInt(data.score.toString()) - 1;
@@ -30,12 +29,12 @@ export default function Player(props) {
     // setEditable(true);
     setScoreUpdated(true);
   };
-  const savePlayer = () => {
-    if (editable ||scoreUpdated) {
+  const savePlayer = async () => {
+    if (editable || scoreUpdated) {
+      let res = await updatePlayer(player);
+      console.log(res);
       setEditable(false);
       setScoreUpdated(false);
-      console.log(player);
-      updatePlayer(player);
     }
   };
   const deletePlayerDetails = () => {
@@ -85,10 +84,14 @@ export default function Player(props) {
       </div>
       <div className="column is-1">
         <div
-          className={editable ||scoreUpdated ? "button is-warning" : "button is-info"}
-          onClick={editable || scoreUpdated ? savePlayer : () => setEditable(true)}
+          className={
+            editable || scoreUpdated ? "button is-warning" : "button is-info"
+          }
+          onClick={
+            editable || scoreUpdated ? savePlayer : () => setEditable(true)
+          }
         >
-          {editable ||scoreUpdated  ? "Save" : "Edit"}
+          {editable || scoreUpdated ? "Save" : "Edit"}
         </div>
       </div>
       <div className="column is-1 ">
